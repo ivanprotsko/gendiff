@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/ivanprotsko/fullstack-javascript-project-46/workflows/hexlet-check/badge.svg)](https://github.com/ivanprotsko/fullstack-javascript-project-46/actions)",
   "main": "gendiff.js",
-    "bin": {
-      "gendiff": "bin/gendiff.js"
-    },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,6 +24,9 @@
     "gendiff"
   ],
   "dependencies": {
-    "commander": "^10.0.0"
+    "commander": "^10.0.0",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
   }
 }
