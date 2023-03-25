@@ -10,34 +10,33 @@ const readFile = (file) => {
 const getObjectFromJSONFile = (json) => {
     return JSON.parse(json);
 }
-const getDiffString = (obj_1, obj_2) => {
-    let resultRows = [];
-    const getLongest = (obj_1, obj_2) => {
-        if ( Object.keys(obj_1).length >=  Object.keys(obj_2).length) {
-            return { long: obj_1, short: obj_2 }
-        } else {
-            return { long: obj_2, short: obj_1 }
-        }
-    }
-    const object = getLongest(obj_1, obj_2);
 
-    for (const [key, value] of Object.entries(object.long)) {
-        if (Object.hasOwn(object.short, key)) {
-            if (object.long[key] === object.short[key]) {
-                resultRows.push(`   ${key}: ${value} \n`);
-            } else {
-                resultRows.push(`- ${key}: ${value} \n`);
-                resultRows.push(`+ ${key}: ${object.short[key]} \n`);
-            }
-        } else {
+// const getLongestObj = (objectOne, objectTwo) => {
+//     if ( Object.keys(objectOne).length >=  Object.keys(objectTwo).length) {
+//         return { long: objectOne, short: objectTwo }
+//     } else {
+//         return { long: objectTwo, short: objectOne }
+//     }
+// }
+const getDiffString = (objectOne, objectTwo) => {
+    let resultRows = [];
+
+    for (const [key, value] of Object.entries(objectOne)) {
+        if (Object.hasOwn(objectTwo, key) && objectOne[key] === objectTwo[key]) {
+            resultRows.push(`  ${key}: ${value} \n`);
+        } else if (!Object.hasOwn(objectTwo, key)) {
+            resultRows.push(`- ${key}: ${value} \n`);
+        } else if (Object.hasOwn(objectTwo, key) && objectOne[key] !== objectTwo[key]) {
+            resultRows.push(`- ${key}: ${value} \n`);
+            resultRows.push(`+ ${key}: ${objectTwo[key]} \n`);
+        }
+    }
+    for (const [key, value] of Object.entries(objectTwo)) {
+        if (!Object.hasOwn(objectOne, key)) {
             resultRows.push(`+ ${key}: ${value} \n`);
         }
     }
-    for (const [key, value] of Object.entries(object.short)) {
-        if (!Object.hasOwn(object.long, key)) {
-            resultRows.push(`+ ${key}: ${value} \n`);
-        }
-    }
+
     return resultRows.join('');
 }
 const genDiff = () => {
