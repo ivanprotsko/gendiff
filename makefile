@@ -1,0 +1,2 @@
+run:
+	bin/gendiff.js
