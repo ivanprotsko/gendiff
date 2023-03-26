@@ -1,27 +1,13 @@
 import gendiff from "../src/gendiff.js";
+import path from 'path';
+import result from '../__fixtures__/flat-1-and-2-result.js';
 
-const file_1 = {
-    "follow": false,
-    "host": "hexlet.io",
-    "timeout": 50,
-    "proxy": "123.234.53.22"
-};
-const file_2 = {
-    "timeout": 20,
-    "verbose": true,
-    "host": "hexlet.io"
-};
-const expectResult = '' +
-    '- follow: false \n' +
-    '  host: hexlet.io \n' +
-    '- timeout: 50 \n' +
-    '+ timeout: 20 \n' +
-    '- proxy: 123.234.53.22 \n' +
-    '+ verbose: true \n';
+const __dirname = path.resolve();
+const path_1 = `${__dirname}/__fixtures__/flat-1.json`;
+const path_2 = `${__dirname}/__fixtures__/flat-2.json`;
 
 test('test', () => {
-    expect(gendiff(file_1, file_2)).toEqual(expectResult);
+    expect(gendiff(path_1, path_2)).toEqual(result);
 });
 
-gendiff(file_1, file_2);
 
