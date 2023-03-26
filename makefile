@@ -14,5 +14,5 @@ test:
 	npm run test
 
 test-coverage:
-	coverage ./index.js
+	coverage --reporter text ./index.js
 
