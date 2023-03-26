@@ -1,17 +1,18 @@
 import fs from 'fs';
+
 const readFile = (file) => {
-    return fs.readFileSync(file, 'utf8', (err, data) => {
+    return fs.readFileSync(file, 'utf8', (err) => {
         if (err) {
             console.error(err);
-            return;
         }
     });
 };
 const getObjectFromJSONFile = (json) => {
     return JSON.parse(json);
-}
+};
 const gendiffFromAnObject = (objectOne, objectTwo) => {
-    let result = [];
+    const result = [];
+
     for (const [key, value] of Object.entries(objectOne)) {
         if (Object.hasOwn(objectTwo, key) && objectOne[key] === objectTwo[key]) {
             result.push(`  ${key}: ${value} \n`);
@@ -28,27 +29,24 @@ const gendiffFromAnObject = (objectOne, objectTwo) => {
         }
     }
     return result.join('');
-}
-let [, , filePath_1, filePath_2] = process.argv;
+};
+const [, , filePathOne, filePathTwo] = process.argv;
 
-const gendiffFromAfilePath = (file_1, file_2) => {
-    const fileObject_1 = getObjectFromJSONFile(readFile(file_1)),
-        fileObject_2 = getObjectFromJSONFile(readFile(file_2));
-    const result = gendiffFromAnObject(fileObject_1, fileObject_2);
+const gendiffFromAfilePath = (fileOne, fileTwo) => {
+    const fileObjectOne = getObjectFromJSONFile(readFile(fileOne));
+    const fileObjectTwo = getObjectFromJSONFile(readFile(fileTwo));
+    const result = gendiffFromAnObject(fileObjectOne, fileObjectTwo);
     return result;
-}
+};
 
-
-const genDiff = (data_1 = filePath_1, data_2 = filePath_2) => {
+const genDiff = (dataOne = filePathOne, dataTwo = filePathTwo) => {
     let result;
-
-    let pathData = (typeof data_1 === 'string' && typeof data_2 === 'string');
-    let objectData = (typeof data_1 === 'object' && typeof data_2 === 'object' );
-
+    const pathData = (typeof dataOne === 'string' && typeof dataTwo === 'string');
+    const objectData = (typeof dataOne === 'object' && typeof dataTwo === 'object');
     if (pathData === true) {
-        result = gendiffFromAfilePath(data_1, data_2);
+        result = gendiffFromAfilePath(dataOne, dataTwo);
     } else if (objectData === true) {
-        result = gendiffFromAnObject(data_1, data_2);
+        result = gendiffFromAnObject(dataOne, dataTwo);
     }
 
     console.log(result);
