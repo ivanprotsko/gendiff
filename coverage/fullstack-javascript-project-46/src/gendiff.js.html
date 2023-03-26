@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.64% </span>
+                <span class="strong">29.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/55</span>
+                <span class='fraction'>16/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.64% </span>
+                <span class="strong">29.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/55</span>
+                <span class='fraction'>16/55</span>
             </div>
         
             
@@ -153,17 +153,17 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fs from 'fs';
@@ -207,18 +207,18 @@ const gendiffFromAfilePath = <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >    return result;</span>
 };
 &nbsp;
-const genDiff = (dataOne = filePathOne, dataTwo = filePathTwo) =&gt; {
-    let result;
-    const pathData = (typeof dataOne === 'string' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof dataTwo === 'string')</span>;
-    const objectData = (typeof dataOne === 'object' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof dataTwo === 'object')</span>;
-    if (pathData === true) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+const genDiff = <span class="fstat-no" title="function not covered" >(dataOne = filePathOne, dataTwo = filePathTwo) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    let result;</span>
+<span class="cstat-no" title="statement not covered" >    const pathData = (typeof dataOne === 'string' &amp;&amp; typeof dataTwo === 'string');</span>
+<span class="cstat-no" title="statement not covered" >    const objectData = (typeof dataOne === 'object' &amp;&amp; typeof dataTwo === 'object');</span>
+<span class="cstat-no" title="statement not covered" >    if (pathData === true) {</span>
 <span class="cstat-no" title="statement not covered" >        result = gendiffFromAfilePath(dataOne, dataTwo);</span>
-    } else if (objectData === true) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    } else if (objectData === true) {</span>
 <span class="cstat-no" title="statement not covered" >        result = gendiffFromAnObject(dataOne, dataTwo);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-    console.log(result);
-    return result;
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    console.log(result);</span>
+<span class="cstat-no" title="statement not covered" >    return result;</span>
 };
 export default genDiff;
 &nbsp;</pre></td></tr></table></pre>
@@ -228,7 +228,7 @@ export default genDiff;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Mar 26 2023 16:21:04 GMT+0800 (Central Indonesia Time)
+                at Sun Mar 26 2023 16:23:28 GMT+0800 (Central Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

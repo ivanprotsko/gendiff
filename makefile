@@ -14,5 +14,5 @@ test:
 	npm run test
 
 test-coverage:
-	coverage --unhandled-rejections=strict ./bin/gendiff.js
+	coverage ./index.js
 
