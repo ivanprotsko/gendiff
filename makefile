@@ -13,5 +13,5 @@ lint:
 test:
 	npm run test
 
-say-hello:
-	say hello world
+test-coverage:
+	npm run test
