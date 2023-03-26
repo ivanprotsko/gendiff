@@ -14,5 +14,8 @@ test:
 	npm run test
 
 test-coverage:
-	coverage --reporter text ./index.js
+	npm test -- --coverage --coverageProvider=v8
+
+publish:
+	npm publish
 
