@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.35% </span>
+                <span class="strong">43.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/57</span>
+                <span class='fraction'>24/55</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.35% </span>
+                <span class="strong">43.64% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/57</span>
+                <span class='fraction'>24/55</span>
             </div>
         
             
@@ -111,11 +111,9 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -124,7 +122,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -147,13 +145,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -171,19 +167,20 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fs from 'fs';
+&nbsp;
 const readFile = <span class="fstat-no" title="function not covered" >(file) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return fs.readFileSync(file, 'utf8', (err, data) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return fs.readFileSync(file, 'utf8', (err) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            console.error(err);</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 };
 const getObjectFromJSONFile = <span class="fstat-no" title="function not covered" >(json) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return JSON.parse(json);</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+};
 const gendiffFromAnObject = <span class="fstat-no" title="function not covered" >(objectOne, objectTwo) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    let result = [];</span>
+<span class="cstat-no" title="statement not covered" >    const result = [];</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    for (const [key, value] of Object.entries(objectOne)) {</span>
 <span class="cstat-no" title="statement not covered" >        if (Object.hasOwn(objectTwo, key) &amp;&amp; objectOne[key] === objectTwo[key]) {</span>
 <span class="cstat-no" title="statement not covered" >            result.push(`  ${key}: ${value} \n`);</span>
@@ -200,27 +197,24 @@ const gendiffFromAnObject = <span class="fstat-no" title="function not covered" 
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >    return result.join('');</span>
-<span class="cstat-no" title="statement not covered" >}</span>
-let [, , filePath_1, filePath_2] = process.argv;
+};
+const [, , filePathOne, filePathTwo] = process.argv;
 &nbsp;
-const gendiffFromAfilePath = <span class="fstat-no" title="function not covered" >(file_1, file_2) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const fileObject_1 = getObjectFromJSONFile(readFile(file_1)),</span>
-<span class="cstat-no" title="statement not covered" >        fileObject_2 = getObjectFromJSONFile(readFile(file_2));</span>
-<span class="cstat-no" title="statement not covered" >    const result = gendiffFromAnObject(fileObject_1, fileObject_2);</span>
+const gendiffFromAfilePath = <span class="fstat-no" title="function not covered" >(fileOne, fileTwo) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const fileObjectOne = getObjectFromJSONFile(readFile(fileOne));</span>
+<span class="cstat-no" title="statement not covered" >    const fileObjectTwo = getObjectFromJSONFile(readFile(fileTwo));</span>
+<span class="cstat-no" title="statement not covered" >    const result = gendiffFromAnObject(fileObjectOne, fileObjectTwo);</span>
 <span class="cstat-no" title="statement not covered" >    return result;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+};
 &nbsp;
-&nbsp;
-const genDiff = (data_1 = filePath_1, data_2 = filePath_2) =&gt; {
+const genDiff = (dataOne = filePathOne, dataTwo = filePathTwo) =&gt; {
     let result;
-&nbsp;
-    let pathData = (typeof data_1 === 'string' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof data_2 === 'string')</span>;
-    let objectData = (typeof data_1 === 'object' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof data_2 === 'object' </span>);
-&nbsp;
+    const pathData = (typeof dataOne === 'string' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof dataTwo === 'string')</span>;
+    const objectData = (typeof dataOne === 'object' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof dataTwo === 'object')</span>;
     if (pathData === true) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        result = gendiffFromAfilePath(data_1, data_2);</span>
+<span class="cstat-no" title="statement not covered" >        result = gendiffFromAfilePath(dataOne, dataTwo);</span>
     } else if (objectData === true) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        result = gendiffFromAnObject(data_1, data_2);</span>
+<span class="cstat-no" title="statement not covered" >        result = gendiffFromAnObject(dataOne, dataTwo);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
     console.log(result);
@@ -234,7 +228,7 @@ export default genDiff;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Mar 26 2023 15:17:42 GMT+0800 (Central Indonesia Time)
+                at Sun Mar 26 2023 16:21:04 GMT+0800 (Central Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
