@@ -1,0 +1,19 @@
+name: run-test-and-lint
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: npx eslint ./bin/
+      - run: npx eslint ./src/
+      
+      - run: npm run test
