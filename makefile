@@ -9,3 +9,9 @@ install-eslint-packages:
 lint:
 	npx eslint ./bin/
 	npx eslint ./src/
+
+test:
+	npm run test
+
+say-hello:
+	say hello world
