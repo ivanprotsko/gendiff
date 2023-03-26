@@ -33,6 +33,7 @@
     "eslint-plugin-import": "^2.27.5"
   },
   "devDependencies": {
+    "coverage": "^0.4.1",
     "jest": "^29.5.0"
   }
 }
