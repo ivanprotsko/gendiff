@@ -1,7 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-const genDiff = (pathOne = filePathOne,
-								 pathTwo = filePathTwo) => {
+export default (pathOne = filePathOne, pathTwo = filePathTwo) => {
 	const internalTree = buildTree(pathOne, pathTwo);
 	return format(internalTree);
 };
@@ -54,4 +53,4 @@ const readFile = (file) => {
 	});
 };
 const [, , filePathOne, filePathTwo] = process.argv;
-export default genDiff;
+// export default genDiff;
