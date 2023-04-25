@@ -1,55 +1,57 @@
 import fs from 'fs';
+import yaml from 'js-yaml';
+const genDiff = (pathOne = filePathOne,
+								 pathTwo = filePathTwo) => {
+	const internalTree = buildTree(pathOne, pathTwo);
+	return format(internalTree);
+};
 
+const format = (internalTree) => {
+	const [objectOne, objectTwo] = internalTree;
+	const rawResult = [];
+	for (const [key, value] of Object.entries(objectOne)) {
+		if (Object.hasOwn(objectTwo, key) && objectOne[key] === objectTwo[key]) {
+			rawResult.push(`  ${key}: ${value} \n`);
+		} else if (!Object.hasOwn(objectTwo, key)) {
+			rawResult.push(`- ${key}: ${value} \n`);
+		} else if (Object.hasOwn(objectTwo, key) && objectOne[key] !== objectTwo[key]) {
+			rawResult.push(`- ${key}: ${value} \n`);
+			rawResult.push(`+ ${key}: ${objectTwo[key]} \n`);
+		}
+	}
+	for (const [key, value] of Object.entries(objectTwo)) {
+		if (!Object.hasOwn(objectOne, key)) {
+			rawResult.push(`+ ${key}: ${value} \n`);
+		}
+	}
+	const finalResultString = rawResult.join('');
+	console.log(finalResultString);
+	return finalResultString;
+}
+const buildTree = (pathOne, pathTwo) => {
+	const objectOne = getData(pathOne);
+	const objectTwo = getData(pathTwo);
+	return [objectOne, objectTwo];
+}
+const getData = (file) => {
+    const fileFormat = getFileFormat(file);
+    if (fileFormat === 'json') {
+        return JSON.parse(readFile(file));
+    } else if (fileFormat === 'yaml') {
+				return yaml.load(readFile(file));
+    }
+}
+const getFileFormat = (filePath) => {
+	const [, fileFormat] = filePath.split('.');
+	if (fileFormat === 'json') { return 'json' }
+	else if ('yml' || 'yaml') { return 'yaml' }
+}
 const readFile = (file) => {
-    return fs.readFileSync(file, 'utf8', (err) => {
-        if (err) {
-            console.error(err);
-        }
-    });
-};
-const getObjectFromJSONFile = (json) => {
-    return JSON.parse(json);
-};
-const gendiffFromAnObject = (objectOne, objectTwo) => {
-    const result = [];
-
-    for (const [key, value] of Object.entries(objectOne)) {
-        if (Object.hasOwn(objectTwo, key) && objectOne[key] === objectTwo[key]) {
-            result.push(`  ${key}: ${value} \n`);
-        } else if (!Object.hasOwn(objectTwo, key)) {
-            result.push(`- ${key}: ${value} \n`);
-        } else if (Object.hasOwn(objectTwo, key) && objectOne[key] !== objectTwo[key]) {
-            result.push(`- ${key}: ${value} \n`);
-            result.push(`+ ${key}: ${objectTwo[key]} \n`);
-        }
-    }
-    for (const [key, value] of Object.entries(objectTwo)) {
-        if (!Object.hasOwn(objectOne, key)) {
-            result.push(`+ ${key}: ${value} \n`);
-        }
-    }
-    return result.join('');
+	return fs.readFileSync(file, 'utf8', (err) => {
+		if (err) {
+			console.error(err);
+		}
+	});
 };
 const [, , filePathOne, filePathTwo] = process.argv;
-
-const gendiffFromAfilePath = (fileOne, fileTwo) => {
-    const fileObjectOne = getObjectFromJSONFile(readFile(fileOne));
-    const fileObjectTwo = getObjectFromJSONFile(readFile(fileTwo));
-    const result = gendiffFromAnObject(fileObjectOne, fileObjectTwo);
-    return result;
-};
-
-const genDiff = (dataOne = filePathOne, dataTwo = filePathTwo) => {
-    let result;
-    const pathData = (typeof dataOne === 'string' && typeof dataTwo === 'string');
-    const objectData = (typeof dataOne === 'object' && typeof dataTwo === 'object');
-    if (pathData === true) {
-        result = gendiffFromAfilePath(dataOne, dataTwo);
-    } else if (objectData === true) {
-        result = gendiffFromAnObject(dataOne, dataTwo);
-    }
-
-    console.log(result);
-    return result;
-};
 export default genDiff;
