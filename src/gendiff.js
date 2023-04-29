@@ -70,6 +70,12 @@ const format = (innerTree) => {
 					printResult([objectOne[key],objectTwo[key]], level);
 					list.push(`${indent}  }\n`);
 				}
+				if (typeof objectOne[key] === 'object' && typeof objectTwo[key] !== 'object') {
+					list.push(`${indent}- ${key}: {\n`);
+					printSimpleFlatList(objectOne[key], level);
+					list.push(`${indent}  }\n`);
+					list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
+				}
 			}
 			if (!_.has(objectOne, key)) {
 				if (objectTwo[key] !== null && typeof objectTwo[key] === 'object') {
