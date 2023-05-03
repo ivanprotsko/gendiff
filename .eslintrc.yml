@@ -13,9 +13,8 @@ rules:
   no-restricted-syntax: 0
   indent:
     - error
-    - 4
+    - 2
   import/extensions:
     - error
     - ignorePackages
     - js: always
-
