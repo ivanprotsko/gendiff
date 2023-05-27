@@ -14,4 +14,3 @@ test('format json data', () => {
 test('format yaml data', () => {
 	expect(gendiff(yamlFileOne, yamlFileTwo)).toEqual(result);
 });
-

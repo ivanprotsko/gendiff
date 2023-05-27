@@ -64,19 +64,19 @@ const format = (innerTree) => {
     });
   };
 
-  const getAllUniquePropsList = (innerTree) => {
+  const getAllUniquePropsList = (tree) => {
     const allProps = [];
-    for (const obj of innerTree) {
+    for (const obj of tree) {
       allProps.push(Object.keys(obj));
     }
     const props = allProps.flat();
     return _.uniqBy(props, JSON.stringify).sort();
   };
 
-  const printResult = (innerTree, level = 0) => {
-    const [objectOne, objectTwo] = innerTree;
+  const printResult = (tree, level = 0) => {
+    const [objectOne, objectTwo] = tree;
     const { newLevel, indent } = getLevelParams(level);
-    const props = getAllUniquePropsList(innerTree);
+    const props = getAllUniquePropsList(tree);
     props.map((key) => {
       if (_.has(objectOne, key) && _.has(objectTwo, key)) {
         if (objectOne[key] === null
