@@ -95,13 +95,13 @@ const format = (innerTree) => {
             && typeof objectTwo[key] === 'object') {
           list.push(`${indent} ${key}: {\n`);
           printResult([objectOne[key], objectTwo[key]], newLevel);
-          list.push(`${indent}  }\n`);
+          list.push(`${indent}}\n`);
         }
         if (typeof objectOne[key] === 'object'
             && typeof objectTwo[key] !== 'object') {
           list.push(`${indent}- ${key}: {\n`);
           printSimpleFlatList(objectOne[key], newLevel);
-          list.push(`${indent}  }\n`);
+          list.push(`${indent}}\n`);
           list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
         }
       }
@@ -110,11 +110,11 @@ const format = (innerTree) => {
             && typeof objectTwo[key] === 'object') {
           list.push(`${indent}+ ${key}: {\n`);
           printSimpleFlatList(objectTwo[key], newLevel);
-          list.push(`${indent}  }\n`);
+          list.push(`${indent}}\n`);
         }
         if (objectTwo[key] === null
             || typeof objectTwo[key] !== 'object') {
-          list.push(`${indent}+ ${key}: ${objectTwo[key]} \n`);
+          list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
         }
       }
       if (!_.has(objectTwo, key)) {
@@ -122,17 +122,17 @@ const format = (innerTree) => {
             && typeof objectOne[key] === 'object') {
           list.push(`${indent}- ${key}: {\n`);
           printSimpleFlatList(objectOne[key], newLevel);
-          list.push(`${indent}  }\n`);
+          list.push(`${indent}}\n`);
         }
         if (objectTwo[key] === null
             || typeof objectOne[key] !== 'object') {
-          list.push(`${indent}- ${key}: ${objectOne[key]} \n`);
+          list.push(`${indent}- ${key}: ${objectOne[key]}\n`);
         }
       }
       return list;
     });
   };
-  list.push('{ \n');
+  list.push('{\n');
   printResult(innerTree);
   list.push('}');
 
