@@ -41,7 +41,7 @@ const buildTree = (pathOne, pathTwo) => {
 };
 const getLevelParams = (level) => {
   let newLevel = level; newLevel += 1;
-  const indent = _.repeat('    ', newLevel);
+  const indent = _.repeat('....', newLevel);
   return { newLevel, indent };
 };
 
@@ -54,11 +54,11 @@ const format = (innerTree) => {
 
     Object.entries(obj).map(([key, value]) => {
       if (typeof value === 'object') {
-        list.push(`${indent}  ${key}: { \n`);
+        list.push(`${indent}${key}: { \n`);
         printSimpleFlatList(value, newLevel);
-        list.push(`${indent}  }\n`);
+        list.push(`${indent}}\n`);
       } else {
-        list.push(`${indent}  ${key}: ${value} \n`);
+        list.push(`${indent}${key}: ${value} \n`);
       }
       return list;
     });
