@@ -10,15 +10,20 @@ const flatJSONFileOne = `${__dirname}/__fixtures__/flat-1.json`;
 const flatJSONFileTwo = `${__dirname}/__fixtures__/flat-2.json`;
 const nestedJSONFileOne = `${__dirname}/__fixtures__/nested-1.json`;
 const nestedJSONFileTwo = `${__dirname}/__fixtures__/nested-2.json`;
-const yamlFileOne = `${__dirname}/__fixtures__/flat-1.yaml`;
-const yamlFileTwo = `${__dirname}/__fixtures__/flat-2.yaml`;
+const flatYAMLFileOne = `${__dirname}/__fixtures__/flat-1.yaml`;
+const flatYAMLFileTwo = `${__dirname}/__fixtures__/flat-2.yaml`;
+const nestedYAMLFileOne = `${__dirname}/__fixtures__/nested-1.yaml`;
+const nestedYAMLFileTwo = `${__dirname}/__fixtures__/nested-2.yaml`;
 
-test('format flat json data', () => {
+test('format flat JSON data', () => {
     expect(gendiff(flatJSONFileOne, flatJSONFileTwo)).toEqual(flatFilesResult);
 });
-test('format nested json data', () => {
+test('format nested JSON data', () => {
   expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo)).toEqual(nestedFilesResult);
 });
-// test('format yaml data', () => {
-// 	expect(gendiff(yamlFileOne, yamlFileTwo)).toEqual(resultYAML);
-// });
+test('format flat YAML data', () => {
+  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo)).toEqual(flatFilesResult);
+});
+test('format nested YAML data', () => {
+  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo)).toEqual(nestedFilesResult);
+});
