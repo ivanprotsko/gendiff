@@ -16,14 +16,14 @@ const nestedYAMLFileOne = `${__dirname}/__fixtures__/nested-1.yaml`;
 const nestedYAMLFileTwo = `${__dirname}/__fixtures__/nested-2.yaml`;
 
 test('format flat JSON data', () => {
-    expect(gendiff(flatJSONFileOne, flatJSONFileTwo)).toEqual(flatFilesResult);
+    expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'stylish')).toEqual(flatFilesResult);
 });
 test('format nested JSON data', () => {
-  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo)).toEqual(nestedFilesResult);
+  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'stylish')).toEqual(nestedFilesResult);
 });
 test('format flat YAML data', () => {
-  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo)).toEqual(flatFilesResult);
+  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'stylish')).toEqual(flatFilesResult);
 });
 test('format nested YAML data', () => {
-  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo)).toEqual(nestedFilesResult);
+  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'stylish')).toEqual(nestedFilesResult);
 });

@@ -1,24 +1,8 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 import stylishFormatter from './formatters/stylish.js';
-import {Command} from "commander";
-import metaData from "../package.json" assert {type: 'json'};
 
-const program = new Command();
 
-program
-  .name('gendiff')
-  .description('  Compares two configuration files and shows a difference.\n')
-  .version(metaData.version);
-program
-  .option('-f, --format <type>', 'output format')
-program.parse();
-
-const options = program.opts();
-if (options.format) console.log(options.format);
-const formatStyle = options.format;
-
-export const [, , filePathOne, filePathTwo] = process.argv;
 
 const readFile = (file) => {
   return fs.readFileSync(file, 'utf8', (err) => {
@@ -68,8 +52,7 @@ const printResult = (innerTree, formatStyle) => {
   return result;
 };
 
-
-export default (pathOne = filePathOne, pathTwo = filePathTwo, style = formatStyle) => {
+export default (pathOne, pathTwo, formatStyle) => {
   const innerTree = buildTree(pathOne, pathTwo);
-  return printResult(innerTree, style);
+  return printResult(innerTree, formatStyle);
 };

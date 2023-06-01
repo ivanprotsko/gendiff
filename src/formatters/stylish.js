@@ -1,4 +1,5 @@
 import _ from "lodash";
+import getAllUniquePropsList from '../utils/get-unique-props.js';
 const getLevelParams = (level) => {
   let newLevel = level; newLevel += 1;
   const indent = _.repeat('....', newLevel);
@@ -20,15 +21,6 @@ const stylishFormatter = (tree) => {
       }
       return list;
     });
-  };
-
-  const getAllUniquePropsList = (tree) => {
-    const allProps = [];
-    for (const obj of tree) {
-      allProps.push(Object.keys(obj));
-    }
-    const props = allProps.flat();
-    return _.uniqBy(props, JSON.stringify).sort();
   };
 
   const printResult = (tree, level = 0) => {
@@ -90,6 +82,7 @@ const stylishFormatter = (tree) => {
       return list;
     });
   };
+
   list.push('{\n');
   printResult(tree);
   list.push('}');
