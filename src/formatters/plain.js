@@ -22,10 +22,10 @@ const stylishFormatter = (tree, formatStyle) => {
       return list;
     });
   };
-  const printResult = (tree, key) => {
+  const printResult = (tree, key, previousWay) => {
     const [objectOne, objectTwo] = tree;
     const props = getAllUniquePropsList(tree);
-    const way = [];
+    let way = previousWay ? previousWay : [];
     if (key) way.push(`${key}.`);
     const theWay = way.join('');
     const printValueFormat = (key) => {
@@ -62,7 +62,7 @@ const stylishFormatter = (tree, formatStyle) => {
         if (typeof objectOne[key] === 'object'
           && typeof objectTwo[key] === 'object') {
           // list.push(switchPrintOutput('1.2', params));
-          printResult([objectOne[key], objectTwo[key]], key);
+          printResult([objectOne[key], objectTwo[key]], key, way);
         }
         // 1.3. Если значение свойства объекта № 1 является объектом
         if (typeof objectOne[key] === 'object'
