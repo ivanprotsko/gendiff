@@ -2,8 +2,6 @@ import gendiff from "../src/gendiff.js";
 import path from 'path';
 import flatFilesResult from '../__fixtures__/flat-1-and-2-result.js';
 import nestedFilesResult from '../__fixtures__/nested-1-and-2-result.js';
-import resultJSON from '../__fixtures__/flat-1-and-2-result.js';
-import resultYAML from '../__fixtures__/flat-1-and-2-result.js';
 
 const __dirname = path.resolve();
 const flatJSONFileOne = `${__dirname}/__fixtures__/flat-1.json`;
