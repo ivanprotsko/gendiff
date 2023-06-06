@@ -1,7 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-import stylishFormatter from './formatters/stylish.js';
-import plainFormatter from './formatters/plain.js';
+import printResult from './formatters/index.js';
 
 const readFile = (file) => {
   return fs.readFileSync(file, 'utf8', (err) => {
@@ -39,18 +38,7 @@ const buildTree = (pathOne, pathTwo) => {
   return [objectOne, objectTwo];
 };
 
-const printResult = (innerTree, formatStyle) => {
-  switch (formatStyle) {
-    case 'stylish':
-      return stylishFormatter(innerTree);
-      break;
-    case 'plain':
-      return plainFormatter(innerTree);
-      break;
-    default:
-      console.log('Result Format undefined.');
-  }
-};
+
 
 export default (pathOne, pathTwo, formatStyle) => {
   const innerTree = buildTree(pathOne, pathTwo);
