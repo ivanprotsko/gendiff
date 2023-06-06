@@ -1,7 +1,10 @@
 import gendiff from "../src/gendiff.js";
 import path from 'path';
-import flatFilesResult from '../__fixtures__/flat-1-and-2-result.js';
-import nestedFilesResult from '../__fixtures__/nested-1-and-2-result.js';
+import stylishFlatFilesResult from '../__fixtures__/formatter-result/stylish-flat.js';
+import stylishNestedFilesResult from '../__fixtures__/formatter-result/stylish-nested.js';
+import plainFlatFilesResult from '../__fixtures__/formatter-result/plain-flat.js';
+import plainNestedFlatFilesResult from '../__fixtures__/formatter-result/plain-nested.js';
+import stylish from "../src/formatters/stylish.js";
 
 const __dirname = path.resolve();
 const flatJSONFileOne = `${__dirname}/__fixtures__/flat-1.json`;
@@ -13,15 +16,27 @@ const flatYAMLFileTwo = `${__dirname}/__fixtures__/flat-2.yaml`;
 const nestedYAMLFileOne = `${__dirname}/__fixtures__/nested-1.yaml`;
 const nestedYAMLFileTwo = `${__dirname}/__fixtures__/nested-2.yaml`;
 
-test('format flat JSON data', () => {
-    expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'stylish')).toEqual(flatFilesResult);
+test('stylish format flat JSON data', () => {
+    expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'stylish')).toEqual(stylishFlatFilesResult);
 });
-test('format nested JSON data', () => {
-  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'stylish')).toEqual(nestedFilesResult);
+test('stylish format nested JSON data', () => {
+  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'stylish')).toEqual(stylishNestedFilesResult);
 });
-test('format flat YAML data', () => {
-  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'stylish')).toEqual(flatFilesResult);
+test('stylish format flat YAML data', () => {
+  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'stylish')).toEqual(stylishFlatFilesResult);
 });
-test('format nested YAML data', () => {
-  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'stylish')).toEqual(nestedFilesResult);
+test('stylish format nested YAML data', () => {
+  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'stylish')).toEqual(stylishNestedFilesResult);
+});
+test('plain format flat JSON data', () => {
+  expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'plain')).toEqual(plainFlatFilesResult);
+});
+test('plain format nested JSON data', () => {
+  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
+});
+test('plain format flat YAML data', () => {
+  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'plain')).toEqual(plainFlatFilesResult);
+});
+test('plain format nested YAML data', () => {
+  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
 });

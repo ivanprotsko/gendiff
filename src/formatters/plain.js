@@ -22,23 +22,23 @@ const stylishFormatter = (tree, formatStyle) => {
       return list;
     });
   };
+  const printValueFormat = (key) => {
+    if (typeof key === 'boolean' || key === null) {
+      return `${key}`;
+    } else if (typeof key === 'string') {
+      return `'${key}'`
+    } else if (typeof key === 'object') {
+      return '[complex value]';
+    } else if (typeof key === 'number') {
+      return `'${key}'`;
+    }
+  }
   const printResult = (tree, key, previousWay) => {
     const [objectOne, objectTwo] = tree;
     const props = getAllUniquePropsList(tree);
     let way = previousWay ? previousWay : [];
     if (key) way.push(`${key}.`);
     const theWay = way.join('');
-    const printValueFormat = (key) => {
-      if (typeof key === 'boolean' || key === null) {
-        return `${key}`;
-      } else if (typeof key === 'string') {
-        return `'${key}'`
-      } else if (typeof key === 'object') {
-        return '[complex value]';
-      }
-    }
-
-
 
     props.map((key) => {
       // 1. Если свойство есть в обоих объектах
@@ -100,6 +100,7 @@ const stylishFormatter = (tree, formatStyle) => {
           list.push(`Property ${theWay}${key} was removed\n`);
         }
       }
+      way = []
       return list;
     });
   };
