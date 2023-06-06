@@ -107,7 +107,6 @@ const stylishFormatter = (tree, formatStyle) => {
 
   printResult(tree);
   result = list.join('');
-  console.log(result);
   return result;
 }
 export default stylishFormatter;

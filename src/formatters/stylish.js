@@ -2,7 +2,7 @@ import _ from "lodash";
 import getAllUniquePropsList from '../utils/get-unique-props.js';
 const getLevelParams = (level) => {
   let newLevel = level; newLevel += 1;
-  const indent = _.repeat('....', newLevel);
+  const indent = _.repeat('    ', newLevel);
   return { newLevel, indent };
 };
 const stylishFormatter = (tree, formatStyle) => {
@@ -106,7 +106,6 @@ const stylishFormatter = (tree, formatStyle) => {
   list.push('}');
 
   result = list.join('');
-  console.log(result);
   return result;
 }
 export default stylishFormatter;

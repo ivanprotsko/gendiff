@@ -4,4 +4,5 @@ import {filePathOne, filePathTwo, formatStyle} from './string-util.js';
 
 
 
-genDiff(filePathOne, filePathTwo, formatStyle);
+const diff = genDiff(filePathOne, filePathTwo, formatStyle);
+console.log(diff);
