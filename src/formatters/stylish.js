@@ -22,14 +22,11 @@ const stylishFormatter = (tree, formatStyle) => {
       return list;
     });
   };
-  const case_1_1_1 = (objectOne, objectTwo, key, indent) => {
-    return `${indent}  ${key}: ${objectOne[key]}\n`;
-  }
 
   const printResult = (tree, level = 0) => {
     const [objectOne, objectTwo] = tree;
     const { newLevel, indent } = getLevelParams(level);
-    const props = getAllUniquePropsList(tree);
+    const props = getAllUniquePropsList(tree, level);
     props.map((key) => {
       const params = [objectOne, objectTwo, key, indent, newLevel];
 
