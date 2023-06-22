@@ -1,108 +1,79 @@
-import _ from "lodash";
-import getAllUniquePropsList from '../utils/get-unique-props.js';
+import _ from 'lodash';
+
 const getLevelParams = (level) => {
   let newLevel = level; newLevel += 1;
   const indent = _.repeat('    ', newLevel);
   return { newLevel, indent };
 };
-const stylishFormatter = (tree, formatStyle) => {
-  let result = '';
+const printSimpleFlatList = (obj, level) => {
+  const { newLevel, indent } = getLevelParams(level);
   const list = [];
-  const printSimpleFlatList = (obj, level) => {
-    const { newLevel, indent } = getLevelParams(level);
+  console.log(Object.entries(obj));
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== null && typeof value === 'object') {
+      list.push(`${indent}  ${key}: { \n`);
+      list.push(`${printSimpleFlatList(value, newLevel)}`);
+      list.push(`${indent}  }\n`);
+    } else {
+      list.push(`${indent}  ${key}: ${value} \n`);
+    }
+  }
+  return _.flatten(list).join('');
+};
 
-    Object.entries(obj).map(([key, value]) => {
-      if (typeof value === 'object') {
-        list.push(`${indent}${key}: { \n`);
-        printSimpleFlatList(value, newLevel);
-        list.push(`${indent}}\n`);
+const printResult = (diff, level = 0) => {
+  const list = [];
+  diff.map(obj => {
+    const { newLevel, indent } = getLevelParams(level);
+    const { key, value, value1, value2, type, children } = obj;
+
+    if (type === 'nested') {
+      list.push(`${indent}  ${key}: {\n`);
+      list.push(printResult(children, newLevel));
+      list.push(`${indent}  }\n`);
+    }
+    if (type === 'added') {
+      if (value !== null && typeof value === 'object') {
+        list.push(`${indent}+ ${key}: {\n`);
+        list.push(printSimpleFlatList(value, newLevel));
+        list.push(`${indent}  }\n`);
       } else {
-        list.push(`${indent}${key}: ${value} \n`);
+        list.push(`${indent}+ ${key}: ${value}\n`);
       }
-      return list;
-    });
-  };
-
-  const printResult = (tree, level = 0) => {
-    const [objectOne, objectTwo] = tree;
-    const { newLevel, indent } = getLevelParams(level);
-    const props = getAllUniquePropsList(tree, level);
-    props.map((key) => {
-      const params = [objectOne, objectTwo, key, indent, newLevel];
-
-      // 1. Если свойство есть в обоих объектах
-      if (_.has(objectOne, key) && _.has(objectTwo, key)) {
-        // 1.1. Если значения не являются объектами и не равны Null
-        if (objectOne[key] === null
-          || objectTwo[key] === null
-          || (typeof objectOne[key] !== 'object'
-            && typeof objectTwo[key] !== 'object')) {
-          // 1.1.1. Если значения свойства у обоих объектов равны
-          if (objectOne[key] === objectTwo[key]) {
-            list.push(`${indent}  ${key}: ${objectOne[key]}\n`);
-          }
-          // 1.1.2. Если значения свойства у обоих объектов не равны
-          if (objectOne[key] !== objectTwo[key]) {
-            list.push(`${indent}- ${key}: ${objectOne[key]}\n`);
-            list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
-          }
-        }
-        // 1.2. Если значения свойства у обоих значений является объектом
-        if (typeof objectOne[key] === 'object'
-          && typeof objectTwo[key] === 'object') {
-          // list.push(switchPrintOutput('1.2', params));
-          list.push(`${indent} ${key}: {\n`);
-          printResult([objectOne[key], objectTwo[key]], newLevel);
-          list.push(`${indent}}\n`);
-        }
-        // 1.3. Если значение свойства объекта № 1 является объектом
-        if (typeof objectOne[key] === 'object'
-          && typeof objectTwo[key] !== 'object') {
-          list.push(`${indent}- ${key}: {\n`);
-          printSimpleFlatList(objectOne[key], newLevel);
-          list.push(`${indent}}\n`);
-          list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
-        }
+    }
+    if (type === 'changed') {
+      if (value1 !== null && typeof value1 === 'object') {
+        list.push(`${indent}- ${key}: {\n`);
+        list.push(printSimpleFlatList(value1, newLevel));
+        list.push(`${indent}  }\n`);
+      } else {
+        list.push(`${indent}- ${key}: ${value1}\n`);
       }
-      // 2. Если объект № 1 не содержит свойство
-      if (!_.has(objectOne, key)) {
-        // 2.1. Если свойство равно Null или не является объектом
-        if (objectTwo[key] !== null
-          && typeof objectTwo[key] === 'object') {
-          list.push(`${indent}+ ${key}: {\n`);
-          printSimpleFlatList(objectTwo[key], newLevel);
-          list.push(`${indent}}\n`);
-        }
-        // 2.1. Если свойство равно Null или не является объектом
-        if (objectTwo[key] === null
-          || typeof objectTwo[key] !== 'object') {
-          list.push(`${indent}+ ${key}: ${objectTwo[key]}\n`);
-        }
+      if (value2 !== null && typeof value2 === 'object') {
+        list.push(`${indent}+ ${key}: {\n`);
+        list.push(printSimpleFlatList(value2, newLevel));
+        list.push(`${indent}  }\n`);
+      } else {
+        list.push(`${indent}+ ${key}: ${value2}\n`);
       }
-      // 3. Если объект № 2 не содержит свойство
-      if (!_.has(objectTwo, key)) {
-        // 3.1. Если свойство является объектом и не равно Null
-        if (objectTwo[key] !== null
-          && typeof objectOne[key] === 'object') {
-          list.push(`${indent}- ${key}: {\n`);
-          printSimpleFlatList(objectOne[key], newLevel);
-          list.push(`${indent}}\n`);
-        }
-        // 3.2. Если свойство равно Null или не является объектом
-        if (objectTwo[key] === null
-          || typeof objectOne[key] !== 'object') {
-          list.push(`${indent}- ${key}: ${objectOne[key]}\n`);
-        }
+    }
+    if (type === 'deleted') {
+      if (value !== null && typeof value === 'object') {
+        list.push(`${indent}- ${key}: {\n`);
+        list.push(printSimpleFlatList(value, newLevel));
+        list.push(`${indent}  }\n`);
+      } else {
+        list.push(`${indent}- ${key}: ${value}\n`);
       }
-      return list;
-    });
-  };
-
-  list.push('{\n');
-  printResult(tree);
-  list.push('}');
-
-  result = list.join('');
-  return result;
+    }
+    if (type === 'unchanged') {
+      list.push(`${indent}  ${key}: ${value}\n`);
+    }
+  });
+  return _.flatten(list).join('');
 }
-export default stylishFormatter;
+const printStylishFormat = (diff) => {
+  const result = printResult(diff);
+  return `{\n${result}}`;
+}
+export default printStylishFormat;

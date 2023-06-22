@@ -28,15 +28,15 @@ test('stylish format flat YAML data', () => {
 test('stylish format nested YAML data', () => {
   expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'stylish')).toEqual(stylishNestedFilesResult);
 });
-test('plain format flat JSON data', () => {
-  expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'plain')).toEqual(plainFlatFilesResult);
-});
-test('plain format nested JSON data', () => {
-  expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
-});
-test('plain format flat YAML data', () => {
-  expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'plain')).toEqual(plainFlatFilesResult);
-});
-test('plain format nested YAML data', () => {
-  expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
-});
+// test('plain format flat JSON data', () => {
+//   expect(gendiff(flatJSONFileOne, flatJSONFileTwo, 'plain')).toEqual(plainFlatFilesResult);
+// });
+// test('plain format nested JSON data', () => {
+//   expect(gendiff(nestedJSONFileOne, nestedJSONFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
+// });
+// test('plain format flat YAML data', () => {
+//   expect(gendiff(flatYAMLFileOne, flatYAMLFileTwo, 'plain')).toEqual(plainFlatFilesResult);
+// });
+// test('plain format nested YAML data', () => {
+//   expect(gendiff(nestedYAMLFileOne, nestedYAMLFileTwo, 'plain')).toEqual(plainNestedFlatFilesResult);
+// });

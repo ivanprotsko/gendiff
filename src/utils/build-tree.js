@@ -1,47 +1,32 @@
 import _ from "lodash";
-import getLevelUniqueProps from '../utils/get-unique-props.js';
+import path from "path";
+import getObjects from "./get-objects.js";
 
-const buildTree = (objects, level = 0, parent = 'root') => {
-  level += 1;
-  return getLevelUniqueProps(objects).map((key) => {
-    let nestedObjects = [];
-    let r = { level, keyName: key ? key : '', valueType: {},
-              value: {}, doesExist: {}, childs: [] };
-    for (let i = 0; i < objects.length; i++) {
-      r.parent = parent;
-      r.doesExist[`o${i}`] = (objects[i][key] !== undefined);
-      r.valueType[`o${i}`] = _.isNull(objects[i][key]) ? null : typeof objects[i][key];
-      r.value[`o${i}`] = objects[i][key];
+const buildTree = (data1, data2) => {
 
-      if (!_.isNull(objects[i][key]) && typeof objects[i][key] === 'object') {
-        nestedObjects.push(objects[i][key]);
-      }
+
+  const keys = _.union(Object.keys(data1), Object.keys(data2));
+  const sortedKeys = _.sortBy(keys);
+  const diff = sortedKeys.map((key) => {
+    if (!_.has(data1, key)) {
+      return { key, type: 'added', value: data2[key] };
     }
-    r.childs.push(buildTree(nestedObjects,level,key));
 
-    return r;
+    if (!_.has(data2, key)) {
+      return { key, type: 'deleted', value: data1[key] };
+    }
+
+    if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
+      return { key, type: 'nested', children: buildTree(data1[key], data2[key]) };
+    }
+    if (!_.isEqual(data1[key], data2[key])) {
+      return { key, type: 'changed', value1: data1[key], value2: data2[key] };
+    }
+
+    return { key, type: 'unchanged', value: data2[key] };
   });
+
+  return diff;
 }
-// demo
-// const objA = {
-//   follow: "follow",
-//   common: {
-//     setting1: "Value 1",
-//     setting3: {
-//       common2: {
-//         setting1: "Value 4",
-//         setting3: "Value 5"
-//       }
-//     }
-//   }
-// };
-// const objB = {
-//   follow: "follow",
-//   common: {
-//     setting1: "Value 2"
-//   }
-// }
-//
-// console.log(buildTree([objA, objB], ));
-// console.log(JSON.stringify(buildTree([objA, objB]), null, 2));
+
 export default buildTree;

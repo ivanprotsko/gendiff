@@ -1,46 +1,9 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
-import printResult from './formatters/index.js';
-
-const readFile = (file) => {
-  return fs.readFileSync(file, 'utf8', (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
-};
-
-const getFileFormat = (filePath) => {
-  const [, fileFormat] = filePath.split('.');
-  return fileFormat;
-};
-
-const getData = (file) => {
-  const fileFormat = getFileFormat(file);
-  let data;
-
-  switch (fileFormat) {
-    case 'json':
-      data = JSON.parse(readFile(file));
-      break;
-    case 'yaml':
-      data = yaml.load(readFile(file));
-      break;
-    default:
-      console.log('File format undefined');
-  }
-  return data;
-};
-
-const buildTree = (pathOne, pathTwo) => {
-  const objectOne = getData(pathOne);
-  const objectTwo = getData(pathTwo);
-  return [objectOne, objectTwo];
-};
-
-
+import getObjects from './utils/get-objects.js';
+import buildTree from "./utils/build-tree.js";
+import printResult from "./formatters/index.js";
 
 export default (pathOne, pathTwo, formatStyle) => {
-  const innerTree = buildTree(pathOne, pathTwo);
-  return printResult(innerTree, formatStyle);
+  const [objA, objB] = getObjects(pathOne, pathTwo);
+  const diff = buildTree(objA, objB);
+  return printResult(diff, formatStyle);
 };

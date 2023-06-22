@@ -5,7 +5,7 @@ const getLevelParams = (level) => {
   const indent = _.repeat('....', newLevel);
   return { newLevel, indent };
 };
-const stylishFormatter = (tree, formatStyle) => {
+const printPlainFormat = (tree, formatStyle) => {
   let result = '';
   const list = [];
   const printSimpleFlatList = (obj, level) => {
@@ -109,4 +109,4 @@ const stylishFormatter = (tree, formatStyle) => {
   result = list.join('');
   return result;
 }
-export default stylishFormatter;
+export default printPlainFormat;
