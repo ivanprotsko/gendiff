@@ -1,21 +1,12 @@
 import printStylishFormat from "./stylish.js";
-import printPlainFormat from "./plain.js";
 import printJSONformat from "./json.js";
+import printPlainFormat from "./plain.js";
 
-const printResult = (diff, formatStyle) => {
-  switch (formatStyle) {
-    case 'stylish':
-      return printStylishFormat(diff);
-      console.log('123');
-      break;
-    case 'plain':
-      return printPlainFormat(diff);
-      break;
-    case 'json':
-      return printJSONformat(diff);
-      break;
-    default:
-      console.log('Result Format undefined.');
-  }
-};
-export default printResult;
+const formatters = {
+  stylish: printStylishFormat,
+  plain: printPlainFormat,
+  json: printJSONformat,
+}
+export default (diff, formatStyle) => {
+  return formatters[formatStyle](diff);
+}
