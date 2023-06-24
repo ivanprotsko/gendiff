@@ -19,6 +19,7 @@ export default (diff) => {
     if (value !== null && typeof value === 'object') return `[complex value]`;
     if (typeof value === 'boolean' || _.isNull(value)) return value;
     if (typeof value === 'string') return `'${value}'`;
+    if (typeof value === 'number') return `'${value}'`;
   }
 
   const iter = (diff, prevPath, prevKey) => {

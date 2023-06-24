@@ -35,6 +35,6 @@ export default (pathOne, pathTwo, formatStyle) => {
   const objA = getData(pathOne);
   const objB = getData(pathTwo);
   const diff = buildTree(objA, objB);
-  // console.log(JSON.stringify(diff, null, 4));
+  console.log(JSON.stringify(diff, null, 4));
   return printResult(diff, formatStyle);
 };
