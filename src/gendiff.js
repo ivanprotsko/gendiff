@@ -4,10 +4,14 @@ import yaml from 'js-yaml';
 import printResult from './formatters/index.js';
 import readFile from './utils/read-file.js';
 
-const parsers = { json: JSON.parse, yaml: yaml.load };
+const parsers = {
+  json: JSON.parse,
+  yaml: yaml.load,
+};
 const getData = (path) => {
   const [, fileFormat] = path.split('.');
-  return parsers[fileFormat](readFile(path));
+  const file = readFile(path);
+  return parsers[fileFormat](file);
 };
 
 const buildTree = (data1, data2) => {
