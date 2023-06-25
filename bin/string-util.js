@@ -1,6 +1,7 @@
-import { Command } from "commander";
-import metaData from "../package.json" assert { type: 'json' };
+import { readFileSync } from 'fs';
+import { Command } from 'commander';
 
+const metaData = JSON.parse(readFileSync('./package.json'));
 const program = new Command();
 
 program
@@ -13,5 +14,5 @@ program
   .argument('<pathTwo>', 'Second file path');
 program.parse();
 
-export const [ filePathOne, filePathTwo ] = program.args;
+export const [filePathOne, filePathTwo] = program.args;
 export const formatStyle = program.opts().format;

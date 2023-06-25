@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from 'fs';
 
 const readFile = (file) => {
   return fs.readFileSync(file, 'utf8', (err) => {
