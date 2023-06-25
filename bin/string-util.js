@@ -1,5 +1,5 @@
-import {Command} from "commander";
-import metaData from "../package.json" assert {type: 'json'};
+import { Command } from "commander";
+import metaData from "../package.json" assert { type: 'json' };
 
 const program = new Command();
 
@@ -10,7 +10,7 @@ program
 program
   .option('-f, --format <type>', 'output format', 'stylish')
   .argument('<pathOne>', 'First file path')
-  .argument('<pathTwo>', 'Second file path')
+  .argument('<pathTwo>', 'Second file path');
 program.parse();
 
 export const [ filePathOne, filePathTwo ] = program.args;
