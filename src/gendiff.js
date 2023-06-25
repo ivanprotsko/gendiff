@@ -10,8 +10,7 @@ const parsers = {
 };
 const getData = (path) => {
   const [, fileFormat] = path.split('.');
-  const file = readFile(path);
-  return parsers[fileFormat](file);
+  return parsers[fileFormat](readFile(path));
 };
 
 const buildTree = (data1, data2) => {
