@@ -12,6 +12,7 @@ export default (diff) => {
     if (typeof value === 'object') return '[complex value]';
     if (typeof value === 'string') return `'${value}'`;
     if (typeof value === 'number') return `'${value}'`;
+    return null;
   };
   const mapping = {
     deleted: (way, key) => `Property '${getPath(way, key)}' was removed\n`,
@@ -23,6 +24,16 @@ export default (diff) => {
   const iter = (childs, prevPath, prevKey) => {
     const list = [];
     const path = getPath(prevPath, prevKey);
+
+    // childs.flatMap((node) => {
+    //   const {
+    //     type, key, value, value1, value2, children,
+    //   } = node;
+    //   list.push(iter(children, path, key));
+    //   list.push(mapping[node.type](path, key));
+    //   list.push(mapping[node.type](path, key, value));
+    //   list.push(mapping[node.type](path, key, value1, value2));
+    // });
     childs.forEach((node) => {
       const {
         type, key, value, value1, value2, children,
