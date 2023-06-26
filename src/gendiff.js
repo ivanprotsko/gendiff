@@ -11,7 +11,6 @@ const parsers = {
 };
 const getData = (path) => {
   const [, fileFormat] = path.split('.');
-  console.log(fileFormat);
   return parsers[fileFormat](readFile(path));
 };
 
