@@ -19,6 +19,18 @@ test('Stylish, YAML, nested', () => {
     buildPath('yaml', 'nested', 'b'),
     'stylish')).toEqual(result.stylish.nested);
 });
+test('Stylish, YML, flat', () => {
+  expect(gendiff(
+    buildPath('yml', 'flat', 'a'),
+    buildPath('yml', 'flat', 'b'),
+    'stylish')).toEqual(result.stylish.flat);
+});
+test('Stylish, YML, nested', () => {
+  expect(gendiff(
+    buildPath('yml', 'nested', 'a'),
+    buildPath('yml', 'nested', 'b'),
+    'stylish')).toEqual(result.stylish.nested);
+});
 
 test('Stylish, JSON, flat', () => {
   expect(gendiff(
