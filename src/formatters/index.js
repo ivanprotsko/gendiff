@@ -6,7 +6,6 @@ const formatters = {
   stylish: printStylishFormat,
   plain: printPlainFormat,
   json: printJSONformat,
-  undefined: 'какой-то код console.log с уведомлением, что передан неизвестный формат?'
 };
 export default (diff, formatStyle = 'stylish') => {
   console.log(formatters);
