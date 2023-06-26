@@ -7,6 +7,7 @@ import readFile from './utils/read-file.js';
 const parsers = {
   json: JSON.parse,
   yaml: yaml.load,
+  yml: yaml.load,
 };
 const getData = (path) => {
   const [, fileFormat] = path.split('.');
