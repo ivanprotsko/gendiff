@@ -3,10 +3,10 @@ import printJSONformat from './json.js';
 import printPlainFormat from './plain.js';
 
 const formatters = {
-    stylish: printStylishFormat,
-    plain: printPlainFormat,
-    json: printJSONformat,
+  stylish: printStylishFormat,
+  plain: printPlainFormat,
+  json: printJSONformat,
 };
 export default (diff, formatStyle = 'stylish') => {
-    return formatters[formatStyle](diff);
+  return formatters[formatStyle](diff);
 };
