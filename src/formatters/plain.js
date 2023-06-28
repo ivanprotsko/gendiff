@@ -10,9 +10,7 @@ const getValueOutput = (value) => {
   switch (typeof value) {
   case 'boolean': return value;
   case 'object': return '[complex value]';
-  case 'string': return `'${value}'`;
-  case 'number': return `'${value}'`;
-  default: return null;
+  default: return `'${value}'`;
   }
 };
 const mapping = {
@@ -23,12 +21,9 @@ const mapping = {
   unchanged: () => {},
 };
 const iter = (childs, previousPath, key) => {
-  const list = [];
   const path = getPath(previousPath, key);
-  childs.flatMap((node) => list.push(mapping[node.type](node, path)));
-  return _.flatten(list);
+  return childs.flatMap((node) => mapping[node.type](node, path));;
 };
 export default (diff) => {
-  const result = iter(diff).join('');
-  return result;
+  return iter(diff).join('');
 };
