@@ -22,7 +22,7 @@ const mapping = {
 };
 const iter = (childs, previousPath, key) => {
   const path = getPath(previousPath, key);
-  return childs.flatMap((node) => mapping[node.type](node, path));;
+  return childs.flatMap((node) => mapping[node.type](node, path));
 };
 export default (diff) => {
   return iter(diff).join('');
