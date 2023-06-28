@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
 const getLevel = (level) => { return level + 1; };
-const getIndent = (newLevel) => { return _.repeat('  ', newLevel); };
+const getIndent = (newLevel) => {
+  if (newLevel === 1) return '  ';
+  return _.repeat('   ', newLevel); };
 const printSimpleFlatList = (obj, level) => {
   const newLevel = getLevel(level);
   const indent = getIndent(newLevel);
@@ -44,6 +46,7 @@ const printResult = (diff, level = 0) => {
 
   diff.map((obj) => {
     const indent = getIndent(newLevel);
+    console.log(`${obj.type}, '${indent}', ${obj.key}`);
     const {
       key, value, value1, value2, type, children,
     } = obj;
