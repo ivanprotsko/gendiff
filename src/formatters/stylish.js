@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const getLevel = (level) => {
-  if (level === undefined) return level = 0;
+  if (_.isUndefined(level)) return 0;
   return level + 1;
 };
 const getIndent = (newLevel) => {
