@@ -1,9 +1,15 @@
 import _ from 'lodash';
 
-const getLevel = (level) => { return level + 1; };
+const getLevel = (level) => {
+  if (level === undefined) return level = 0;
+  return level + 1;
+};
 const getIndent = (newLevel) => {
-  if (newLevel === 1) return '  ';
-  return _.repeat('    ', newLevel); };
+  const initialIndent = '  ';
+  const regularIndent = '    ';
+  if (newLevel === 0) return '  ';
+  return _.repeat(regularIndent, newLevel) + initialIndent;
+};
 const printSimpleFlatList = (obj, level) => {
   const newLevel = getLevel(level);
   const indent = getIndent(newLevel);
@@ -11,18 +17,17 @@ const printSimpleFlatList = (obj, level) => {
 
   for (const [key, value] of Object.entries(obj)) {
     if (value !== null && typeof value === 'object') {
-      list.push(`${indent}  ${key}: { \n`);
+      list.push(`${indent}  ${key}: {\n`);
       list.push(`${printSimpleFlatList(value, newLevel)}`);
       list.push(`${indent}  }\n`);
     } else {
-      list.push(`${indent}  ${key}: ${value} \n`);
+      list.push(`${indent}  ${key}: ${value}\n`);
     }
   }
-
   return _.flatten(list).join('');
 };
 
-const printResult = (diff, level = 0) => {
+const printResult = (childs, level) => {
   const list = [];
   const newLevel = getLevel(level);
   const mapping = {
@@ -44,7 +49,7 @@ const printResult = (diff, level = 0) => {
     },
   };
 
-  diff.map((obj) => {
+  childs.map((obj) => {
     const indent = getIndent(newLevel);
     console.log(`${obj.type}, '${indent}', ${obj.key}`);
     const {
@@ -72,7 +77,6 @@ const printResult = (diff, level = 0) => {
     if (type === 'unchanged') list.push(mapping[type].nonObj(value, key, indent));
     return null;
   });
-
   return _.flatten(list).join('');
 };
 export default (diff) => {
