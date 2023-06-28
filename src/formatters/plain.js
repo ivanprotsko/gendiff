@@ -1,50 +1,34 @@
 import _ from 'lodash';
 
+const getPath = (path, key) => {
+  if (path && key) return [path, key].join('.');
+  if (path) return path;
+  return key;
+};
+const getValueOutput = (value) => {
+  if (_.isNull(value)) return value;
+  switch (typeof value) {
+  case 'boolean': return value;
+  case 'object': return '[complex value]';
+  case 'string': return `'${value}'`;
+  case 'number': return `'${value}'`;
+  default: return null;
+  }
+};
+const mapping = {
+  nested: ({ children, key }, path) => iter(children, path, key),
+  deleted: ({ key }, path) => `Property '${getPath(path, key)}' was removed\n`,
+  added: ({ key, value }, path) => `Property '${getPath(path, key)}' was added with value: ${getValueOutput(value)}\n`,
+  changed: ({ key, value1, value2 }, path) => `Property '${getPath(path, key)}' was updated. From ${getValueOutput(value1)} to ${getValueOutput(value2)}\n`,
+  unchanged: () => {},
+};
+const iter = (childs, previousPath, key) => {
+  const list = [];
+  const path = getPath(previousPath, key);
+  childs.flatMap((node) => list.push(mapping[node.type](node, path)));
+  return _.flatten(list);
+};
 export default (diff) => {
-  const getPath = (prevPath, key) => {
-    if (prevPath && key) return [prevPath, key].join('.');
-    if (prevPath) return prevPath;
-    return key;
-  };
-  const getValueOutput = (value) => {
-    if (value === null) return value;
-    if (typeof value === 'boolean') return value;
-    if (typeof value === 'object') return '[complex value]';
-    if (typeof value === 'string') return `'${value}'`;
-    if (typeof value === 'number') return `'${value}'`;
-    return null;
-  };
-  const mapping = {
-    deleted: (way, key) => `Property '${getPath(way, key)}' was removed\n`,
-    added: (way, key, value) => `Property '${getPath(way, key)}' was added with value: ${getValueOutput(value)}\n`,
-    changed: (way, key, value1, value2) => {
-      return `Property '${getPath(way, key)}' was updated. From ${getValueOutput(value1)} to ${getValueOutput(value2)}\n`;
-    },
-  };
-  const iter = (childs, prevPath, prevKey) => {
-    const list = [];
-    const path = getPath(prevPath, prevKey);
-
-    // childs.flatMap((node) => {
-    //   const {
-    //     type, key, value, value1, value2, children,
-    //   } = node;
-    //   list.push(iter(children, path, key));
-    //   list.push(mapping[node.type](path, key));
-    //   list.push(mapping[node.type](path, key, value));
-    //   list.push(mapping[node.type](path, key, value1, value2));
-    // });
-    childs.forEach((node) => {
-      const {
-        type, key, value, value1, value2, children,
-      } = node;
-      if (type === 'nested') list.push(iter(children, path, key));
-      if (type === 'deleted') list.push(mapping[type](path, key));
-      if (type === 'added') list.push(mapping[type](path, key, value));
-      if (type === 'changed') list.push(mapping[type](path, key, value1, value2));
-    });
-    return _.flatten(list);
-  };
   const result = iter(diff).join('');
   return result;
 };

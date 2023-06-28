@@ -8,6 +8,5 @@ const formatters = {
   json: printJSONformat,
 };
 export default (diff, formatStyle = 'stylish') => {
-  console.log(formatters);
   return formatters[formatStyle](diff);
 };
