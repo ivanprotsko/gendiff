@@ -56,7 +56,7 @@ export default {
   plain: {
     flat: `Property 'follow-follow' was removed
 Property 'proxy' was removed
-Property 'timeout' was updated. From '50' to '20'
+Property 'timeout' was updated. From 50 to 20
 Property 'verbose' was added with value: true`,
     nested: `Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
