@@ -9,6 +9,7 @@ const getValueOutput = (value) => {
   if (_.isNull(value)) return value;
   switch (typeof value) {
   case 'boolean': return value;
+  case 'number': return value;
   case 'object': return '[complex value]';
   default: return `'${value}'`;
   }
