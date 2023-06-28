@@ -51,7 +51,6 @@ const printResult = (childs, level) => {
 
   childs.map((obj) => {
     const indent = getIndent(newLevel);
-    console.log(`${obj.type}, '${indent}', ${obj.key}`);
     const {
       key, value, value1, value2, type, children,
     } = obj;

@@ -15,15 +15,15 @@ const getValueOutput = (value) => {
 };
 const mapping = {
   nested: ({ children, key }, path, iter) => iter(children, path, key),
-  deleted: ({ key }, path) => `Property '${getPath(path, key)}' was removed\n`,
-  added: ({ key, value }, path) => `Property '${getPath(path, key)}' was added with value: ${getValueOutput(value)}\n`,
-  changed: ({ key, value1, value2 }, path) => `Property '${getPath(path, key)}' was updated. From ${getValueOutput(value1)} to ${getValueOutput(value2)}\n`,
-  unchanged: () => {},
+  deleted: ({ key }, path) => `Property '${getPath(path, key)}' was removed`,
+  added: ({ key, value }, path) => `Property '${getPath(path, key)}' was added with value: ${getValueOutput(value)}`,
+  changed: ({ key, value1, value2 }, path) => `Property '${getPath(path, key)}' was updated. From ${getValueOutput(value1)} to ${getValueOutput(value2)}`,
 };
 const iter = (childs, previousPath, previousKey) => {
   const path = getPath(previousPath, previousKey);
-  return childs.flatMap((node) => mapping[node.type](node, path, iter));
+  const changedNodes = childs.filter((node) => {return node.type !== 'unchanged'});
+  return changedNodes.flatMap((node) => mapping[node.type](node, path, iter));
 };
 export default (diff) => {
-  return iter(diff).join('');
+  return iter(diff).join('\n');
 };
