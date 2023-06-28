@@ -3,7 +3,7 @@ import _ from 'lodash';
 const getLevel = (level) => { return level + 1; };
 const getIndent = (newLevel) => {
   if (newLevel === 1) return '  ';
-  return _.repeat('   ', newLevel); };
+  return _.repeat('    ', newLevel); };
 const printSimpleFlatList = (obj, level) => {
   const newLevel = getLevel(level);
   const indent = getIndent(newLevel);
