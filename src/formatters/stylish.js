@@ -62,7 +62,7 @@ const printResult = (childs, level) => {
 
     if (type === 'changed') {
       if (_.isObject(value1)) list.push(mapping[type].deleted.obj(node, indent, newLevel));
-      else list.push(mapping[type].deleted.nonObj(node, indent));
+      else list.push(mapping[type].deleted.nonObj(node, indent));z3d
 
       if (_.isObject(value2)) list.push(mapping[type].added.obj(node, newLevel, indent));
       else list.push(mapping[type].added.nonObj(node, indent));
