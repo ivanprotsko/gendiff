@@ -70,7 +70,7 @@ const printResult = (childs, level) => {
 
     if (type === 'unchanged') list.push(mapping[type].nonObj(node, indent));
     return list;
-  });
+  });g
   return list.join('');
 };
 export default (diff) => `{\n${printResult(diff)}}`;
