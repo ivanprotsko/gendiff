@@ -61,26 +61,24 @@ const printResult = (childs, level) => {
       value, value1, value2, type,
     } = node;
 
-    if (type === 'nested') {
-      list.push(mapping[type](node, newLevel, indent, printResult));
-    }
-    if (type === 'added') {
-      if (value !== null && typeof value === 'object') list.push(mapping[type].obj(node, newLevel, indent));
-      else list.push(mapping[type].nonObj(node, indent));
-    }
+    if (type === 'nested') list.push(mapping[type](node, newLevel, indent, printResult));
+
+    if (type === 'added' && value !== null && typeof value === 'object') list.push(mapping[type].obj(node, newLevel, indent));
+    else if (type === 'added') list.push(mapping[type].nonObj(node, indent));
+
     if (type === 'changed') {
       if (value1 !== null && typeof value1 === 'object') list.push(mapping[type].deleted.obj(node, newLevel, indent));
-      else list.push(mapping[type].deleted.nonObj(node, indent));
+      else if (type === 'changed') list.push(mapping[type].deleted.nonObj(node, indent));
 
       if (value2 !== null && typeof value2 === 'object') list.push(mapping[type].added.obj(node, newLevel, indent));
-      else list.push(mapping[type].added.nonObj(node, indent));
+      else if (type === 'changed') list.push(mapping[type].added.nonObj(node, indent));
     }
-    if (type === 'deleted') {
-      if (value !== null && typeof value === 'object') list.push(mapping[type].obj(node, newLevel, indent));
-      else list.push(mapping[type].nonObj(node, indent));
-    }
+
+    if (type === 'deleted' && value !== null && typeof value === 'object') list.push(mapping[type].obj(node, newLevel, indent));
+    else if (type === 'deleted') list.push(mapping[type].nonObj(node, indent));
+
     if (type === 'unchanged') list.push(mapping[type].nonObj(node, indent));
-    return null;
+    return list;
   });
   return _.flatten(list).join('');
 };
