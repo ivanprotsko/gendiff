@@ -1,6 +1,7 @@
 import path from 'path';
 import gendiff from '../src/gendiff.js';
 import result from '../__fixtures__/expected-formats.js';
+// import { test, expect } from 'eslint';
 
 const buildPath = (format, structure, file) => {
   const __dirname = path.resolve();
