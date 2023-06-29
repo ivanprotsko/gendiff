@@ -6,13 +6,7 @@ overrides: []
 parserOptions:
   ecmaVersion: latest
 rules:
-  no-console: 0
-  import/no-named-as-default: 0
-  import/no-named-as-default-member: 0
-  arrow-body-style: 0
-  no-restricted-syntax: 0
   indent:
-    - error
     - 2
   import/extensions:
     - error

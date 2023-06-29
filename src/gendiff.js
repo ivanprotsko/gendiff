@@ -29,7 +29,7 @@ const buildTree = (data1, data2) => {
     }
     if (!_.isEqual(data1[key], data2[key])) {
       return {
-          key, type: 'changed', value1: data1[key], value2: data2[key],
+        key, type: 'changed', value1: data1[key], value2: data2[key],
       };
     }
     return { key, type: 'unchanged', value: data2[key] };
