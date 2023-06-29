@@ -13,18 +13,13 @@ const getIndent = (newLevel) => {
 const printSimpleFlatList = (obj, level, counter = 0) => {
   const newLevel = getLevel(level);
   const indent = getIndent(newLevel);
-  const list = [];
-  const entries = Object.entries(obj);
-  entries.forEach(([key, value]) => {
-    if (value !== null && typeof value === 'object') {
-      list.push(`${indent}  ${key}: {\n`);
-      list.push(`${printSimpleFlatList(value, newLevel, counter)}`);
-      list.push(`${indent}  }\n`);
-    } else {
-      list.push(`${indent}  ${key}: ${value}\n`);
-    }
-  });
-  return _.flatten(list).join('');
+  const objEntries = Object.entries(obj);
+  const result = objEntries.flatMap(([key, value]) => {
+    if (value !== null && typeof value === 'object') return `${indent}  ${key}: {\n${printSimpleFlatList(value, newLevel, counter)}${indent}  }\n`;
+    else return `${indent}  ${key}: ${value}\n`;
+  })
+
+  return result.join('');
 };
 
 const mapping = {
@@ -55,7 +50,7 @@ const mapping = {
 const printResult = (childs, level) => {
   const list = [];
   const newLevel = getLevel(level);
-  childs.map((node) => {
+  childs.flatMap((node) => {
     const indent = getIndent(newLevel);
     const {
       value, value1, value2, type,
@@ -80,6 +75,6 @@ const printResult = (childs, level) => {
     if (type === 'unchanged') list.push(mapping[type].nonObj(node, indent));
     return list;
   });
-  return _.flatten(list).join('');
+  return list.join('');
 };
 export default (diff) => `{\n${printResult(diff)}}`;
