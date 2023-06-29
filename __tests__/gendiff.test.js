@@ -1,5 +1,5 @@
 import path from 'path';
-import gendiff from "../src/gendiff.js";
+import gendiff from '../src/gendiff.js'"';
 import result from '../__fixtures__/expected-formats.js';
 
 const buildPath = (format, structure, file) => {

@@ -22,9 +22,7 @@ const mapping = {
 };
 const iter = (childs, previousPath, previousKey) => {
   const path = getPath(previousPath, previousKey);
-  const changedNodes = childs.filter((node) => {return node.type !== 'unchanged'});
+  const changedNodes = childs.filter((node) => node.type !== 'unchanged');
   return changedNodes.flatMap((node) => mapping[node.type](node, path, iter));
 };
-export default (diff) => {
-  return iter(diff).join('\n');
-};
+export default (diff) => iter(diff).join('\n');

@@ -7,6 +7,4 @@ const formatters = {
   plain: printPlainFormat,
   json: printJSONformat,
 };
-export default (diff, formatStyle = 'stylish') => {
-  return formatters[formatStyle](diff);
-};
+export default (diff, formatStyle = 'stylish') => formatters[formatStyle](diff);

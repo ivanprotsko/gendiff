@@ -10,20 +10,20 @@ const getIndent = (newLevel) => {
   if (newLevel === 0) return '  ';
   return _.repeat(regularIndent, newLevel) + initialIndent;
 };
-const printSimpleFlatList = (obj, level) => {
+const printSimpleFlatList = (obj, level, counter = 0) => {
   const newLevel = getLevel(level);
   const indent = getIndent(newLevel);
   const list = [];
-
-  for (const [key, value] of Object.entries(obj)) {
-  if (value !== null && typeof value === 'object') {
-    list.push(`${indent}  ${key}: {\n`);
-    list.push(`${printSimpleFlatList(value, newLevel)}`);
-    list.push(`${indent}  }\n`);
-  } else {
-    list.push(`${indent}  ${key}: ${value}\n`);
-  }
-  }
+  const entries = Object.entries(obj);
+  entries.forEach(([key, value]) => {
+    if (value !== null && typeof value === 'object') {
+      list.push(`${indent}  ${key}: {\n`);
+      list.push(`${printSimpleFlatList(value, newLevel, counter)}`);
+      list.push(`${indent}  }\n`);
+    } else {
+      list.push(`${indent}  ${key}: ${value}\n`);
+    }
+  });
   return _.flatten(list).join('');
 };
 
