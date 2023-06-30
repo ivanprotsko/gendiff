@@ -11,6 +11,7 @@ lint:
 	npx eslint ./src/
 	npx eslint __fixtures__
 	npx eslint __tests__
+	npx eslint ./
 
 test:
 	npm run test
