@@ -16,61 +16,43 @@ const printSimpleFlatList = (obj, level, counter = 0) => {
   const objEntries = Object.entries(obj);
   const result = objEntries.flatMap(([key, value]) => {
     if (value !== null && typeof value === 'object') return `${indent}  ${key}: {\n${printSimpleFlatList(value, newLevel, counter)}${indent}  }\n`;
-    else return `${indent}  ${key}: ${value}\n`;
-  })
-
+    return `${indent}  ${key}: ${value}\n`;
+  });
   return result.join('');
 };
-
+const getSymbol = (type) => {
+  switch (type) {
+    case 'added': return '+';
+    case 'deleted': return '-';
+    default: return ' ';
+  }
+};
+const render = (node, indent, prevLevel, symbol) => {
+  const { key, value } = node;
+  if (_.isObject(value)) return `${indent}${symbol} ${key}: {\n${printSimpleFlatList(value, prevLevel)}${indent}  }\n`;
+  return `${indent}${symbol} ${key}: ${value}\n`;
+};
 const mapping = {
-  nested: ({ children, key }, indent, prevLevel, printResult) => `${indent}  ${key}: {\n${printResult(children, prevLevel)}${indent}  }\n`,
-  added: {
-    obj: ({ value, key }, indent, prevLevel) => `${indent}+ ${key}: {\n${printSimpleFlatList(value, prevLevel)}${indent}  }\n`,
-    nonObj: ({ value, key }, indent) => `${indent}+ ${key}: ${value}\n`,
-  },
-  deleted: {
-    obj: ({ value, key }, indent, prevLevel) => `${indent}- ${key}: {\n${printSimpleFlatList(value, prevLevel)}${indent}  }\n`,
-    nonObj: ({ value, key }, indent) => `${indent}- ${key}: ${value}\n`,
-  },
-  changed: {
-    added: {
-      obj: ({ value2, key }, indent, prevLevel) => mapping.added.obj({value: value2, key}, indent, prevLevel),
-      nonObj: ({ value2, key }, indent) => mapping.added.nonObj({value: value2, key}, indent),
-    },
-    deleted: {
-      obj: ({ value1, key }, indent, prevLevel) => mapping.deleted.obj({value: value1, key}, indent, prevLevel),
-      nonObj: ({ value1, key }, indent) => mapping.deleted.nonObj({value: value1, key}, indent),
-    },
-  },
-  unchanged: {
-    nonObj: ({ value, key }, indent) => `${indent}  ${key}: ${value}\n`,
+
+  nested: ({ type, key, children }, indent, prevLevel, printResult) => `${indent}${getSymbol(type)} ${key}: {\n${printResult(children, prevLevel)}${indent}  }\n`,
+  unchanged: (node, indent, prevLevel) => render(node, indent, prevLevel, ' '),
+  deleted: (node, indent, prevLevel) => render(node, indent, prevLevel, '-'),
+  added: (node, indent, prevLevel) => render(node, indent, prevLevel, '+'),
+  changed: ({ value1, value2, key }, indent, prevLevel) => {
+    const list = ['-', '+'].flatMap((symbol) => {
+      if (symbol === '-') return render({ value: value1, key }, indent, prevLevel, symbol);
+      return render({ value: value2, key }, indent, prevLevel, symbol);
+    });
+    return list.join('');
   },
 };
 
 const printResult = (childs, level) => {
-  const list = [];
   const newLevel = getLevel(level);
-
-  childs.flatMap((node) => {
+  const list = childs.flatMap((node) => {
     const indent = getIndent(newLevel);
-    const { value, value1, value2, type, } = node;
-    const valueType = _.isObject(value) ? 'obj' : 'nonObj';
-
-    if (type === 'nested')   list.push(mapping[type](node, indent, newLevel, printResult));
-    if (type === 'added')    list.push(mapping[type][valueType](node, indent, newLevel));
-    if (type === 'deleted' ) list.push(mapping[type][valueType](node, indent, newLevel));
-
-    if (type === 'changed') {
-      if (_.isObject(value1)) list.push(mapping[type].deleted.obj(node, indent, newLevel));
-      else list.push(mapping[type].deleted.nonObj(node, indent));z3d
-
-      if (_.isObject(value2)) list.push(mapping[type].added.obj(node, newLevel, indent));
-      else list.push(mapping[type].added.nonObj(node, indent));
-    }
-
-    if (type === 'unchanged') list.push(mapping[type].nonObj(node, indent));
-    return list;
-  });g
+    return mapping[node.type](node, indent, newLevel, printResult);
+  });
   return list.join('');
 };
 export default (diff) => `{\n${printResult(diff)}}`;
