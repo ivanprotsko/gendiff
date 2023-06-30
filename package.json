@@ -1,6 +1,5 @@
 {
   "name": "@hexlet/code",
-
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/ivanprotsko/fullstack-javascript-project-46/workflows/hexlet-check/badge.svg)](https://github.com/ivanprotsko/fullstack-javascript-project-46/actions)",
   "main": "src/gendiff.js",
@@ -31,7 +30,9 @@
     "commander": "^10.0.0",
     "eslint": "^8.36.0",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
