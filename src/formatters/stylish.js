@@ -11,38 +11,39 @@ const getIndent = (newLevel) => {
   return _.repeat(regularIndent, newLevel) + initialIndent;
 };
 
-const render = (node, indent, prevLevel, symbol, printSimpleNode) => {
+const render = (node, prevLevel, symbol, renderRegular) => {
+  const indent = getIndent(prevLevel);
   const { key, value } = node;
-  if (_.isObject(value)) return `${indent}${symbol} ${key}: {\n${printSimpleNode(value, prevLevel)}${indent}  }\n`;
+  if (_.isObject(value)) return `${indent}${symbol} ${key}: {\n${renderUnchanged(value, prevLevel)}${indent}  }\n`;
   return `${indent}${symbol} ${key}: ${value}\n`;
 };
-const printSimpleNode = (obj, level) => {
+const renderUnchanged = (obj, level) => {
   const newLevel = getLevel(level);
-  const indent = getIndent(newLevel);
   return Object.entries(obj).flatMap(
-    ([key, value]) => render({ key, value }, indent, newLevel, ' ', printSimpleNode),
+    ([key, value]) => render({ key, value }, newLevel, ' ', renderUnchanged),
   ).join('');
 };
-const renderChangedNode = ({ value1, value2, key }, indent, prevLevel) => {
-  const list = ['-', '+'].flatMap((symbol) => {
-    if (symbol === '-') return render({ value: value1, key }, indent, prevLevel, symbol, printSimpleNode);
-    return render({ value: value2, key }, indent, prevLevel, symbol, printSimpleNode);
-  }).join('');
+const renderChanged = ({ value1, value2, key }, prevLevel) => {
+  const list = [
+    render({ value: value1, key }, prevLevel, '-', renderUnchanged),
+    render({ value: value2, key }, prevLevel, '+', renderUnchanged),
+  ].join('');
   return list;
 };
+const renderNested = ({ key, children }, prevLevel, renderResult) => {
+  const indent = getIndent(prevLevel);
+  return `${indent}  ${key}: {\n${renderResult(children, prevLevel)}${indent}  }\n`;
+};
 const mapping = {
-  nested: ({ key, children }, indent, prevLevel, printResult) => `${indent}  ${key}: {\n${printResult(children, prevLevel)}${indent}  }\n`,
-  unchanged: (node, indent, prevLevel) => render(node, indent, prevLevel, ' ', printSimpleNode),
-  deleted: (node, indent, prevLevel) => render(node, indent, prevLevel, '-', printSimpleNode),
-  added: (node, indent, prevLevel) => render(node, indent, prevLevel, '+', printSimpleNode),
-  changed: (node, indent, prevLevel) => renderChangedNode(node, indent, prevLevel),
+  nested: (node, prevLevel, renderResult) => renderNested(node, prevLevel, renderResult),
+  unchanged: (node, prevLevel) => render(node, prevLevel, ' ', renderUnchanged),
+  deleted: (node, prevLevel) => render(node, prevLevel, '-', renderUnchanged),
+  added: (node, prevLevel) => render(node, prevLevel, '+', renderUnchanged),
+  changed: (node, prevLevel) => renderChanged(node, prevLevel),
 };
 
-const printResult = (childs, level) => {
+const renderResult = (childs, level) => {
   const newLevel = getLevel(level);
-  return childs.flatMap((node) => {
-    const indent = getIndent(newLevel);
-    return mapping[node.type](node, indent, newLevel, printResult);
-  }).join('');
+  return childs.flatMap((node) => mapping[node.type](node, newLevel, renderResult)).join('');
 };
-export default (diff) => `{\n${printResult(diff)}}`;
+export default (diff) => `{\n${renderResult(diff)}}`;

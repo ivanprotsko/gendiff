@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import yaml from 'js-yaml';
 
-import printResult from './formatters/index.js';
+import renderResult from './formatters/index.js';
 import readFile from './utils/read-file.js';
 
 const parsers = {
@@ -40,5 +40,5 @@ export default (pathOne, pathTwo, formatStyle) => {
   const objA = getData(pathOne);
   const objB = getData(pathTwo);
   const diff = buildTree(objA, objB);
-  return printResult(diff, formatStyle);
+  return renderResult(diff, formatStyle);
 };
